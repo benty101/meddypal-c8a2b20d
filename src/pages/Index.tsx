@@ -1,10 +1,13 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import ContextualNavbar from '@/components/navbar/ContextualNavbar';
-import Hero from '@/components/Hero';
-import WorldClassFeatures from '@/components/WorldClassFeatures';
+import { Hero3D } from "@/components/landing/Hero3D";
+import TrustMarquee from "@/components/landing/TrustMarquee";
+import { TrustIndicators } from "@/components/landing/TrustIndicators";
+import { ProblemSection3D } from "@/components/landing/ProblemSection3D";
+import { Testimonials3D } from "@/components/landing/Testimonials3D";
+import InsuranceFeature from "@/components/landing/InsuranceFeature";
 
 const Index = () => {
   const { user, loading } = useAuth();
@@ -29,10 +32,10 @@ const Index = () => {
   // Show loading state while checking auth
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#0066FF] mx-auto"></div>
+          <p className="mt-4 text-slate-500">Loading...</p>
         </div>
       </div>
     );
@@ -40,10 +43,22 @@ const Index = () => {
 
   // Only show public landing page to unauthenticated users
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       <ContextualNavbar />
-      <Hero />
-      <WorldClassFeatures />
+
+      <main>
+        <Hero3D />
+        <TrustMarquee />
+        <TrustIndicators />
+        <ProblemSection3D />
+        <InsuranceFeature />
+        <Testimonials3D />
+
+        {/* Footer Placeholder */}
+        <footer className="py-12 bg-slate-900 text-slate-400 text-center">
+          <p>© 2025 MeddyPal. Built for Nigeria 🇳🇬</p>
+        </footer>
+      </main>
     </div>
   );
 };

@@ -10,8 +10,19 @@ interface OnboardingProtectedRouteProps {
 const OnboardingProtectedRoute = ({ children }: OnboardingProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
-  console.log('OnboardingProtectedRoute: Auth state', { user: user?.id, loading });
+  // DEVELOPMENT MODE: Skip all checks for easier testing
+  const isDevelopment = import.meta.env.DEV;
+  const BYPASS_ONBOARDING_CHECK = true; // Toggle this to enforce onboarding in dev
 
+  console.log('OnboardingProtectedRoute: Auth state', { user: user?.id, loading, isDevelopment });
+
+  // In development mode with bypass enabled, allow access without onboarding
+  if (isDevelopment && BYPASS_ONBOARDING_CHECK) {
+    console.log('OnboardingProtectedRoute: Development mode - bypassing all checks');
+    return <>{children}</>;
+  }
+
+  // Show loading state while checking authentication
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -23,6 +34,7 @@ const OnboardingProtectedRoute = ({ children }: OnboardingProtectedRouteProps) =
     );
   }
 
+  // Require authentication
   if (!user) {
     console.log('OnboardingProtectedRoute: No user, redirecting to auth');
     return <Navigate to="/auth" replace />;
@@ -31,13 +43,14 @@ const OnboardingProtectedRoute = ({ children }: OnboardingProtectedRouteProps) =
   // Check if user has completed onboarding
   const onboardingCompleted = localStorage.getItem('onboardingCompleted');
   const userOnboardingData = localStorage.getItem('userOnboardingData');
-  
+
   console.log('OnboardingProtectedRoute: Onboarding check', {
     onboardingCompleted,
     userOnboardingData: !!userOnboardingData,
     userId: user.id
   });
-  
+
+  // Require onboarding completion
   if (!onboardingCompleted || !userOnboardingData) {
     console.log('OnboardingProtectedRoute: Redirecting to onboarding - user has not completed setup');
     return <Navigate to="/onboarding" replace />;

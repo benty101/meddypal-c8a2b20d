@@ -6,6 +6,11 @@ import { AuthProvider } from './contexts/AuthContext';
 
 // Pages
 import Index from './pages/Index';
+import HomeNew from './pages/HomeNew';
+import About from './pages/About';
+import Services from './pages/Services';
+import Providers from './pages/Providers';
+import Community from './pages/Community';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import HealthTimeline from './pages/HealthTimeline';
@@ -59,126 +64,132 @@ function App() {
           <div className="min-h-screen bg-background">
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<Index />} />
+              {/* Public Routes */}
+              <Route path="/" element={<HomeNew />} />
+              <Route path="/home-old" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/providers" element={<Providers />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/sitemap" element={
                 <PageLayout title="Site Map" showBreadcrumbs={false}>
                   <SiteMap />
                 </PageLayout>
               } />
-              
+
               {/* Protected Routes - Require Authentication */}
               <Route path="/onboarding" element={
                 <ProtectedRoute>
                   <Onboarding />
                 </ProtectedRoute>
               } />
-              
+
               {/* Main Health Intelligence Hub - Primary Experience */}
               <Route path="/health-hub" element={
                 <OnboardingProtectedRoute>
                   <HealthIntelligenceHub />
                 </OnboardingProtectedRoute>
               } />
-              
+
               {/* Legacy/Secondary Routes */}
               <Route path="/dashboard" element={
                 <OnboardingProtectedRoute>
                   <Dashboard />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/timeline" element={
                 <OnboardingProtectedRoute>
                   <HealthTimeline />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/overview" element={
                 <OnboardingProtectedRoute>
                   <HealthIntelligenceHub />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/marketplace" element={
                 <OnboardingProtectedRoute>
                   <CommercePlatform />
                 </OnboardingProtectedRoute>
               } />
-              
+
               {/* Service Routes */}
               <Route path="/appointments" element={
                 <OnboardingProtectedRoute>
                   <Appointments />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/insurance" element={
                 <OnboardingProtectedRoute>
                   <Insurance />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/hospitals" element={
                 <OnboardingProtectedRoute>
                   <Hospitals />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/labs" element={
                 <OnboardingProtectedRoute>
                   <Labs />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/pharmacy" element={
                 <OnboardingProtectedRoute>
                   <Pharmacy />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/telemedicine" element={
                 <OnboardingProtectedRoute>
                   <Telemedicine />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/resources" element={
                 <OnboardingProtectedRoute>
                   <Resources />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/records" element={
                 <OnboardingProtectedRoute>
                   <Records />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/emergency" element={
                 <OnboardingProtectedRoute>
                   <Emergency />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/diagnostics" element={
                 <OnboardingProtectedRoute>
                   <Diagnostics />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/pediatric" element={
                 <OnboardingProtectedRoute>
                   <Pediatric />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/premium" element={
                 <OnboardingProtectedRoute>
                   <Premium />
                 </OnboardingProtectedRoute>
               } />
-              
+
               {/* AI Features */}
               <Route path="/ai-assistant" element={
                 <OnboardingProtectedRoute>
@@ -187,7 +198,7 @@ function App() {
                   </PageLayout>
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/ai-chat" element={
                 <OnboardingProtectedRoute>
                   <PageLayout title="Personalized AI Health Chat">
@@ -195,7 +206,7 @@ function App() {
                   </PageLayout>
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/medical-search" element={
                 <OnboardingProtectedRoute>
                   <PageLayout title="Medical Knowledge Search">
@@ -203,7 +214,7 @@ function App() {
                   </PageLayout>
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/checkups" element={
                 <OnboardingProtectedRoute>
                   <PageLayout title="Health Checkups">
@@ -216,90 +227,90 @@ function App() {
                   </PageLayout>
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/insights" element={
                 <OnboardingProtectedRoute>
                   <HealthInsights />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/framer-template" element={<FramerTemplate />} />
-              
+
               {/* User Profile and Action Routes */}
               <Route path="/profile" element={
                 <OnboardingProtectedRoute>
                   <Profile />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/book-appointment" element={
                 <OnboardingProtectedRoute>
                   <BookAppointment />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/book-lab-test" element={
                 <OnboardingProtectedRoute>
                   <BookLabTest />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/consultations" element={
                 <OnboardingProtectedRoute>
                   <Consultations />
                 </OnboardingProtectedRoute>
               } />
-              
+
               <Route path="/my-orders" element={
                 <OnboardingProtectedRoute>
                   <MyOrders />
                 </OnboardingProtectedRoute>
               } />
-              
+
               {/* Role-Based Dashboard Routes */}
               <Route path="/admin" element={
                 <ProtectedRoute>
                   <AdminDashboard />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/hospital" element={
                 <ProtectedRoute>
                   <HospitalDashboard />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/broker" element={
                 <ProtectedRoute>
                   <BrokerDashboard />
                 </ProtectedRoute>
               } />
-              
+
               {/* Legacy routes for backward compatibility */}
               <Route path="/hospital-dashboard" element={
                 <ProtectedRoute>
                   <HospitalDashboard />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/broker-dashboard" element={
                 <ProtectedRoute>
                   <BrokerDashboard />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/patient-portal" element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
               } />
-              
+
               <Route path="/ml-analytics" element={
                 <ProtectedRoute>
                   <MLAnalyticsPage />
                 </ProtectedRoute>
               } />
-              
+
               {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>

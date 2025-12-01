@@ -1,0 +1,757 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeddyPal - Your Lifelong Health Partner</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+    
+    <!-- Tailwind & Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#059669', // Emerald 600
+                        primaryLight: '#ecfdf5', // Emerald 50
+                        secondary: '#d97706', // Amber 600
+                        surface: '#ffffff',
+                        surfaceAlt: '#f8fafc', // Slate 50
+                        border: '#e2e8f0', // Slate 200
+                        textMain: '#0f172a', // Slate 900
+                        textMuted: '#64748b', // Slate 500
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 40px -10px rgba(5, 150, 105, 0.15)',
+                    },
+                    animation: {
+                        'marquee': 'marquee 30s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-subtle': 'pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-subtle': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.8' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Reset */
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        /* Hero Flashlight Effect */
+        .hero-card-container {
+            perspective: 1000px;
+        }
+
+        .hero-card {
+            background: white;
+            position: relative;
+            transform-style: preserve-3d;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(5, 150, 105, 0.04), 
+                transparent 40%
+            );
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* Carousel Styles */
+        .carousel-card {
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-card.active {
+            transform: translateX(0) scale(1.06);
+            opacity: 1;
+            z-index: 20;
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-card.prev {
+            transform: translateX(-110%) scale(0.95);
+            opacity: 0.6;
+            z-index: 10;
+        }
+
+        .carousel-card.next {
+            transform: translateX(110%) scale(0.95);
+            opacity: 0.6;
+            z-index: 10;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Rotating Border Gradient */
+        .border-gradient {
+            position: relative;
+        }
+        .border-gradient::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            padding: 2px; 
+            background: linear-gradient(45deg, #059669, #d97706, #059669); 
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            animation: spin-border 25s linear infinite;
+        }
+
+        /* No Scrollbar for horizontal scrollers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Insurance Toggle Transition */
+        .insurance-slide {
+            transition: transform 0.5s ease;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden selection:bg-emerald-100 selection:text-emerald-900">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight text-slate-900">MeddyPal</span>
+            </a>
+
+            <!-- Menu (Desktop) -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#about" class="hover:text-emerald-600 transition-colors">About Us</a>
+                <a href="#services" class="hover:text-emerald-600 transition-colors">Services</a>
+                <a href="#insurance" class="hover:text-emerald-600 transition-colors">Insurance</a>
+                <a href="#providers" class="hover:text-emerald-600 transition-colors">Find Providers</a>
+                <a href="#community" class="hover:text-emerald-600 transition-colors">Community</a>
+            </div>
+
+            <!-- CTA -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="hidden sm:block text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Log in</a>
+                <a href="#" class="px-5 py-2.5 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm">
+                    Sign up
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-gradient-to-b from-white to-slate-50">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Hero Content -->
+            <div class="relative z-10 max-w-2xl reveal">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 mb-8">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-subtle"></span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-emerald-700">Trusted by 25k+ users</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl font-bold leading-[1.1] mb-6 text-slate-900">
+                    Your Lifelong Health Partner: Access, Manage, and Thrive
+                </h1>
+                
+                <p class="text-lg leading-relaxed mb-8 max-w-lg text-slate-500">
+                    MeddyPal gives you full control of your own health story for life. Own your data. Access care instantly. Designed for Nigerians first.
+                </p>
+                
+                <div class="flex flex-wrap items-center gap-4">
+                    <a href="#" class="px-7 py-3.5 rounded-full bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-700 transition-all shadow-glow hover:-translate-y-1">
+                        Join MeddyPal Today
+                    </a>
+                    <a href="#how-it-works" class="px-7 py-3.5 rounded-full border border-slate-200 bg-white text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors">
+                        Explore Our Solutions
+                    </a>
+                </div>
+
+                <div class="mt-8 flex items-center gap-6 text-xs text-slate-400 font-medium">
+                    <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Secure &amp; Private</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="globe" class="w-4 h-4 text-emerald-500"></i> Works Offline</span>
+                </div>
+            </div>
+
+            <!-- Hero Interactive Visual -->
+            <div class="relative z-10 hero-card-container hidden lg:block" id="heroContainer">
+                <!-- Backing Elements -->
+                <div class="absolute -inset-4 bg-gradient-to-r from-emerald-100 to-amber-50 rounded-[2.5rem] blur-xl opacity-60 animate-pulse-subtle"></div>
+                
+                <!-- Main UI Card (Phone/App Metaphor) -->
+                <div class="hero-card relative w-[380px] h-[600px] mx-auto rounded-[2rem] bg-white shadow-2xl p-6 flex flex-col justify-between" id="heroCard">
+                    
+                    <!-- App Header -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Health Wallet</p>
+                            <h3 class="text-lg font-bold text-slate-900">Hello, Chioma</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center">
+                            <i data-lucide="user" class="w-5 h-5 text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Insurance Balance Card -->
+                    <div class="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl p-5 text-white mb-6 shadow-glow">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-xs font-medium opacity-80">Active Policy</span>
+                            <span class="bg-white/20 text-xs px-2 py-0.5 rounded backdrop-blur-sm">Gold</span>
+                        </div>
+                        <div class="text-3xl font-mono font-medium mb-1">₦450,000</div>
+                        <p class="text-[10px] opacity-70 mb-4">Coverage Balance</p>
+                        
+                        <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+                            <div class="bg-amber-400 w-3/4 h-full rounded-full"></div>
+                        </div>
+                        <p class="text-[10px] mt-2 text-right">No co-pay surprises</p>
+                    </div>
+
+                    <!-- Timeline Feed -->
+                    <div class="flex-1 overflow-hidden">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="text-sm font-bold text-slate-800">Recent Timeline</h4>
+                            <i data-lucide="history" class="w-4 h-4 text-slate-400"></i>
+                        </div>
+                        
+                        <div class="space-y-3 relative">
+                            <!-- Timeline Line -->
+                            <div class="absolute left-3 top-2 bottom-0 w-0.5 bg-slate-100"></div>
+
+                            <!-- Item 1 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-1.5 top-1.5 w-3 h-3 rounded-full bg-white border-2 border-emerald-500 z-10"></div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-xs font-semibold text-slate-700">Lab Results</span>
+                                        <span class="text-[10px] text-slate-400">Today</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">Malaria parasite screening negative.</p>
+                                </div>
+                            </div>
+
+                            <!-- Item 2 -->
+                            <div class="relative pl-8">
+                                <div class="absolute left-1.5 top-1.5 w-3 h-3 rounded-full bg-white border-2 border-slate-300 z-10"></div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-100">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-xs font-semibold text-slate-700">Pharmacy</span>
+                                        <span class="text-[10px] text-slate-400">Oct 24</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">Refill: Amoxicillin 500mg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action -->
+                    <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-4 gap-2">
+                        <div class="flex flex-col items-center gap-1 cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                <i data-lucide="qr-code" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-[9px] font-medium text-slate-500">Emergency</span>
+                        </div>
+                        <div class="col-span-3 bg-slate-900 rounded-full flex items-center justify-center gap-2 text-white cursor-pointer hover:opacity-90 transition-opacity">
+                            <span class="text-xs font-semibold">Book Appointment</span>
+                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE SECTION -->
+    <section class="py-10 border-y border-slate-100 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 mb-6">
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest text-center">Trusted by Our Community</p>
+        </div>
+        
+        <div class="relative flex overflow-hidden whitespace-nowrap mask-gradient">
+             <!-- Gradient Masks -->
+             <div class="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+             <div class="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+
+            <div class="animate-marquee flex items-center gap-16 py-2">
+                <!-- Use text representations styled as logos -->
+                <span class="text-xl font-display font-bold text-slate-300">RELIANCE HMO</span>
+                <span class="text-xl font-display font-bold text-slate-300">AXA MANSARD</span>
+                <span class="text-xl font-display font-bold text-slate-300">AVON</span>
+                <span class="text-xl font-display font-bold text-slate-300">HYGEIA</span>
+                <span class="text-xl font-display font-bold text-slate-300">LUTH</span>
+                <span class="text-xl font-display font-bold text-slate-300">ROCHE</span>
+                <span class="text-xl font-display font-bold text-slate-300">SYNLAB</span>
+                <!-- Duplicate -->
+                <span class="text-xl font-display font-bold text-slate-300">RELIANCE HMO</span>
+                <span class="text-xl font-display font-bold text-slate-300">AXA MANSARD</span>
+                <span class="text-xl font-display font-bold text-slate-300">AVON</span>
+                <span class="text-xl font-display font-bold text-slate-300">HYGEIA</span>
+                <span class="text-xl font-display font-bold text-slate-300">LUTH</span>
+                <span class="text-xl font-display font-bold text-slate-300">ROCHE</span>
+                <span class="text-xl font-display font-bold text-slate-300">SYNLAB</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAROUSEL / HOW IT WORKS -->
+    <section id="how-it-works" class="py-24 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">How It Works</h2>
+            <p class="text-slate-500 max-w-2xl mx-auto">Your complete health story, from childhood onward. Three layers of protection in one simple interface.</p>
+        </div>
+
+        <div class="relative h-[420px] max-w-5xl mx-auto perspective-1000">
+            <!-- Navigation Dots -->
+            <div class="absolute -bottom-12 left-0 right-0 flex justify-center gap-3 z-30">
+                <button onclick="setSlide(0)" class="w-2 h-2 rounded-full bg-slate-300 hover:bg-emerald-600 transition-colors nav-dot active:bg-emerald-600"></button>
+                <button onclick="setSlide(1)" class="w-2 h-2 rounded-full bg-slate-300 hover:bg-emerald-600 transition-colors nav-dot"></button>
+                <button onclick="setSlide(2)" class="w-2 h-2 rounded-full bg-slate-300 hover:bg-emerald-600 transition-colors nav-dot"></button>
+            </div>
+
+            <!-- Card 1: DNA -->
+            <div class="carousel-card active flex items-center justify-center p-4" data-index="0">
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-soft w-full max-w-sm h-full p-8 flex flex-col items-center text-center">
+                    <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6">
+                        <i data-lucide="dna" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Unlock Your DNA for Preventive Care</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                        VCF reports that evolve over time with science. Understand your risks before they become reality.
+                    </p>
+                    <div class="mt-auto w-full pt-6 border-t border-slate-50">
+                        <div class="flex justify-between text-xs font-medium text-slate-600">
+                            <span>Genomic Risk</span>
+                            <span class="text-emerald-600">Low</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden">
+                            <div class="w-1/4 h-full bg-emerald-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Timeline -->
+            <div class="carousel-card next flex items-center justify-center p-4" data-index="1">
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-soft w-full max-w-sm h-full p-8 flex flex-col items-center text-center">
+                    <div class="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-6">
+                        <i data-lucide="book-open" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Your Complete Health Story</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Privacy-first, patient-owned health data. Every visit, prescription, and lab result in one secure timeline.
+                    </p>
+                    <div class="mt-8 space-y-3 w-full text-left">
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex gap-3 items-center">
+                            <div class="w-1 h-8 bg-amber-500 rounded-full"></div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-800">2010 • Age 12</div>
+                                <div class="text-[10px] text-slate-500">Malaria Treatment, Lagos</div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex gap-3 items-center">
+                            <div class="w-1 h-8 bg-emerald-500 rounded-full"></div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-800">2024 • Age 26</div>
+                                <div class="text-[10px] text-slate-500">Annual Checkup, Abuja</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Instant Access -->
+            <div class="carousel-card prev flex items-center justify-center p-4" data-index="2">
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-soft w-full max-w-sm h-full p-8 flex flex-col items-center text-center">
+                    <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Instant Access When It Matters Most</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                        Emergency QR scan for responders in seconds. Share allergies and blood group instantly without unlocking your phone.
+                    </p>
+                    <div class="mt-auto bg-slate-900 p-4 rounded-xl w-32 h-32 flex items-center justify-center mx-auto">
+                        <i data-lucide="qr-code" class="w-16 h-16 text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSURANCE SECTION -->
+    <section id="insurance" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="reveal">
+                <span class="text-amber-600 font-bold text-xs uppercase tracking-wider mb-2 block">Financial Health</span>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-slate-900">Your Insurance, Seamlessly Accepted</h2>
+                <p class="text-lg text-slate-500 mb-8">
+                    No co-pay surprises, you always know what you are covered for. Real-time eligibility checks with all major Nigerian HMOs.
+                </p>
+                <ul class="space-y-4 text-slate-600">
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                        <span>View remaining balances instantly</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                        <span>Confirm coverage before treatment</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                        <span>Digital ID card accepted nationwide</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Interactive Toggle Card -->
+            <div class="relative bg-slate-50 rounded-[2rem] p-2 border border-slate-200 reveal shadow-soft max-w-md mx-auto w-full">
+                <!-- Toggle Switch -->
+                <div class="flex bg-white rounded-full p-1 mb-6 border border-slate-100 shadow-sm relative z-10">
+                    <button onclick="toggleInsurance('coverage')" id="btn-coverage" class="flex-1 py-2.5 rounded-full text-xs font-bold text-slate-900 bg-slate-100 transition-all">Coverage</button>
+                    <button onclick="toggleInsurance('eligibility')" id="btn-eligibility" class="flex-1 py-2.5 rounded-full text-xs font-bold text-slate-500 hover:bg-slate-50 transition-all">Eligibility</button>
+                </div>
+
+                <!-- Card Content Container -->
+                <div class="relative overflow-hidden h-[300px] bg-white rounded-3xl border border-slate-100">
+                    
+                    <!-- View 1: Coverage -->
+                    <div id="view-coverage" class="absolute inset-0 p-6 flex flex-col justify-between insurance-slide">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs font-semibold text-slate-400 uppercase">Outpatient Limit</span>
+                                <i data-lucide="shield" class="w-5 h-5 text-emerald-600"></i>
+                            </div>
+                            <h4 class="text-3xl font-mono font-bold text-slate-900">₦1,200,000</h4>
+                            <p class="text-xs text-slate-500 mt-1">Renewal: Jan 01, 2025</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium">Dental</span>
+                                    <span class="text-emerald-600">Covered</span>
+                                </div>
+                                <div class="h-2 w-full bg-slate-100 rounded-full">
+                                    <div class="h-full bg-emerald-500 rounded-full w-3/4"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium">Optical</span>
+                                    <span class="text-amber-500">80% Used</span>
+                                </div>
+                                <div class="h-2 w-full bg-slate-100 rounded-full">
+                                    <div class="h-full bg-amber-500 rounded-full w-[80%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View 2: Eligibility (Hidden initially) -->
+                    <div id="view-eligibility" class="absolute inset-0 p-6 flex flex-col justify-center items-center text-center insurance-slide translate-x-full opacity-0">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="check" class="w-8 h-8 text-emerald-600"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">You are eligible</h4>
+                        <p class="text-sm text-slate-500 mb-6">Lagoon Hospital, Ikoyi accepts your AXA Mansard Gold plan.</p>
+                        <button class="w-full py-3 rounded-xl bg-slate-900 text-white text-xs font-bold">Generate Auth Code</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NIGERIA CONTEXT GRID -->
+    <section id="providers" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Seamless Integration with Nigerian Healthcare</h2>
+                <p class="text-slate-500">Built for Excellence in Healthcare. We connect the fragmented ecosystem into one smooth experience.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow reveal">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center mb-6">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-slate-900">Find Providers</h3>
+                    <p class="text-sm text-slate-500">
+                        Locate verified Nigerian hospitals, pharmacies, and labs near you. Filter by specialization and insurance acceptance.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow reveal" style="transition-delay: 100ms">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="w-6 h-6 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-slate-900">USSD Integration</h3>
+                    <p class="text-sm text-slate-500">
+                        No data? No problem. Access critical health info and insurance balances via USSD codes on any network.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow reveal" style="transition-delay: 200ms">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center mb-6">
+                        <i data-lucide="lock" class="w-6 h-6 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-slate-900">Privacy-First</h3>
+                    <p class="text-sm text-slate-500">
+                        NDPR compliant. Your data is encrypted and you control who sees it. Share access temporarily with doctors.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-16">
+                <div class="max-w-sm mb-10 md:mb-0">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center">
+                            <i data-lucide="activity" class="w-3 h-3"></i>
+                        </div>
+                        <span class="font-display font-bold text-lg text-slate-900">MeddyPal</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-900">Partner with MeddyPal</h3>
+                    <p class="text-slate-500 text-sm mb-6">
+                        Hospitals, HMOs, and Government bodies—let's build the future of African health together.
+                    </p>
+                    <a href="#" class="text-sm font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-2">
+                        Contact Partnerships <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-12 text-sm">
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-4">Platform</h4>
+                        <ul class="space-y-3 text-slate-500">
+                            <li><a href="#" class="hover:text-emerald-600">About Us</a></li>
+                            <li><a href="#" class="hover:text-emerald-600">Services</a></li>
+                            <li><a href="#" class="hover:text-emerald-600">Insurance</a></li>
+                            <li><a href="#" class="hover:text-emerald-600">Community</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-4">Legal</h4>
+                        <ul class="space-y-3 text-slate-500">
+                            <li><a href="#" class="hover:text-emerald-600">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-emerald-600">Terms of Service</a></li>
+                            <li><a href="#" class="hover:text-emerald-600">NDPR Compliance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+                <p>© 2024 MeddyPal. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <span>Lagos, Nigeria</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTION SCRIPTS -->
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Scroll Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        // 3. Hero Flashlight & Tilt Effect
+        const heroContainer = document.getElementById('heroContainer');
+        const heroCard = document.getElementById('heroCard');
+
+        if (heroContainer && heroCard) {
+            heroContainer.addEventListener('mousemove', (e) => {
+                const rect = heroCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Update Flashlight Position
+                heroCard.style.setProperty('--mouse-x', `${x}px`);
+                heroCard.style.setProperty('--mouse-y', `${y}px`);
+
+                // Calculate Tilt
+                const xCenter = rect.width / 2;
+                const yCenter = rect.height / 2;
+                const rotateX = ((y - yCenter) / yCenter) * -6; // Max 6deg
+                const rotateY = ((x - xCenter) / xCenter) * 6;
+
+                heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            heroContainer.addEventListener('mouseleave', () => {
+                heroCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        }
+
+        // 4. Carousel Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-card');
+        const dots = document.querySelectorAll('.nav-dot');
+
+        function setSlide(index) {
+            currentSlide = index;
+            
+            // Update dots
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('bg-emerald-600');
+                    dot.classList.remove('bg-slate-300');
+                } else {
+                    dot.classList.remove('bg-emerald-600');
+                    dot.classList.add('bg-slate-300');
+                }
+            });
+
+            // Update Cards based on index (0, 1, 2)
+            slides.forEach((slide) => {
+                slide.classList.remove('active', 'prev', 'next');
+                
+                const slideIndex = parseInt(slide.getAttribute('data-index'));
+                
+                if (slideIndex === index) {
+                    slide.classList.add('active');
+                } else if (slideIndex === (index - 1 + 3) % 3) { // Previous logic tailored for 3 items circle
+                     // If current is 0, prev is 2. If current is 1, prev is 0.
+                     // Simple check for 3 items:
+                     if(index === 0 && slideIndex === 2) slide.classList.add('prev');
+                     else if(index === 1 && slideIndex === 0) slide.classList.add('prev');
+                     else if(index === 2 && slideIndex === 1) slide.classList.add('prev');
+                     else slide.classList.add('next');
+                } else {
+                    slide.classList.add('next');
+                }
+            });
+        }
+
+        // Auto rotate carousel
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % 3;
+            setSlide(currentSlide);
+        }, 6000);
+
+        // Initial set
+        setSlide(1); // Start with middle card
+
+        // 5. Insurance Toggle Logic
+        function toggleInsurance(view) {
+            const btnCov = document.getElementById('btn-coverage');
+            const btnElig = document.getElementById('btn-eligibility');
+            const viewCov = document.getElementById('view-coverage');
+            const viewElig = document.getElementById('view-eligibility');
+
+            if (view === 'coverage') {
+                // Button Styles
+                btnCov.classList.add('bg-slate-100', 'text-slate-900');
+                btnCov.classList.remove('text-slate-500');
+                btnElig.classList.remove('bg-slate-100', 'text-slate-900');
+                btnElig.classList.add('text-slate-500');
+
+                // View Transition
+                viewCov.style.transform = 'translateX(0)';
+                viewCov.style.opacity = '1';
+                viewElig.style.transform = 'translateX(100%)';
+                viewElig.style.opacity = '0';
+            } else {
+                // Button Styles
+                btnElig.classList.add('bg-slate-100', 'text-slate-900');
+                btnElig.classList.remove('text-slate-500');
+                btnCov.classList.remove('bg-slate-100', 'text-slate-900');
+                btnCov.classList.add('text-slate-500');
+
+                // View Transition
+                viewCov.style.transform = 'translateX(-100%)';
+                viewCov.style.opacity = '0';
+                viewElig.style.transform = 'translateX(0)';
+                viewElig.style.opacity = '1';
+            }
+        }
+    </script>
+
+</body></html>

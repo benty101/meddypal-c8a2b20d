@@ -1,6 +1,4 @@
-
-import React from 'react';
-import ContextualNavbar from '@/components/navbar/ContextualNavbar';
+import AppLayout from '@/components/layout/AppLayout';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -20,32 +18,30 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   className = ''
 }) => {
   return (
-    <div className="min-h-screen bg-background">
-      <ContextualNavbar />
-      
-      <main className={`container mx-auto px-4 py-6 ${className}`}>
+    <AppLayout className="bg-background-light dark:bg-background-dark">
+      <div className={`space-y-6 ${className}`}>
         {showBreadcrumbs && <Breadcrumbs />}
-        
+
         {(title || subtitle) && (
-          <div className="mb-8">
+          <div>
             {title && (
-              <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2 font-display">
                 {title}
               </h1>
             )}
             {subtitle && (
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-slate-600 dark:text-slate-400">
                 {subtitle}
               </p>
             )}
           </div>
         )}
-        
+
         {children}
-      </main>
-      
+      </div>
+
       <Toaster />
-    </div>
+    </AppLayout>
   );
 };
 

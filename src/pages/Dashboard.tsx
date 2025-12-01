@@ -38,11 +38,26 @@ const Dashboard = () => {
   const [profileData, setProfileData] = useState<any>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
+  // TEMPORARY: Development mode bypass
+  const isDevelopment = import.meta.env.DEV;
+
   useEffect(() => {
+    // In development mode, bypass auth and just load mock data
+    if (isDevelopment && !user) {
+      const mockData = PersonalizationService.getOnboardingData() || {
+        lifeStage: 'general',
+        healthGoals: ['Preventive care'],
+        location: 'Lagos'
+      };
+      setOnboardingData(mockData);
+      setIsLoadingProfile(false);
+      return;
+    }
+
     if (user) {
       initializeUserProfile();
     }
-  }, [user]);
+  }, [user, isDevelopment]);
 
   const initializeUserProfile = async () => {
     setIsLoadingProfile(true);

@@ -10,7 +10,16 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
-  console.log('ProtectedRoute: Auth state', { user: user?.id, loading });
+  // TEMPORARY: Bypass authentication in development mode
+  const isDevelopment = import.meta.env.DEV;
+  const bypassAuth = isDevelopment; // Set to true to bypass auth
+
+  console.log('ProtectedRoute: Auth state', { user: user?.id, loading, bypassAuth });
+
+  if (bypassAuth) {
+    console.log('ProtectedRoute: Development mode - bypassing authentication');
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

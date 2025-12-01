@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserRole } from '@/hooks/useUserRole';
 import NavLogo from './NavLogo';
@@ -8,27 +8,30 @@ import MobileMenu from './MobileMenu';
 import { PsychologicalNavigation } from '../navigation/PsychologicalNavigation';
 import { Button } from '@/components/ui/button';
 import { Star, Map, ArrowRight, LayoutDashboard } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Navbar3D } from './Navbar3D';
 
 const ContextualNavbar = () => {
   const { user, loading } = useAuth();
   const { role, loading: roleLoading } = useUserRole();
   const location = useLocation();
-  
+
   // Debug logging
   console.log('ContextualNavbar - User:', user?.id, 'Role:', role, 'Loading:', loading, 'RoleLoading:', roleLoading);
-  
+
   // Determine navigation context
   const isHomePage = location.pathname === '/';
   const isAuthPage = location.pathname === '/auth';
-  const isDashboardArea = location.pathname.startsWith('/dashboard') || 
-                         location.pathname.startsWith('/admin') || 
-                         location.pathname.startsWith('/hospital') || 
-                         location.pathname.startsWith('/broker') ||
-                         ['/appointments', '/insurance', '/hospitals', '/labs', '/pharmacy', 
-                          '/telemedicine', '/resources', '/records', '/profile'].includes(location.pathname);
-  
-  // Use new psychological navigation for all authenticated users
+  const isDashboardArea = location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/hospital') ||
+    location.pathname.startsWith('/broker') ||
+    ['/appointments', '/insurance', '/hospitals', '/labs', '/pharmacy',
+      '/telemedicine', '/resources', '/records', '/profile'].includes(location.pathname);
+
+  // Use Navbar3D for Landing Page (Unauthenticated or Authenticated)
+  if (isHomePage) {
+    return <Navbar3D />;
+  }
 
   // Don't render navbar while auth or role is loading
   if (loading || roleLoading) {
@@ -94,14 +97,14 @@ const ContextualNavbar = () => {
 
           {/* Right side content - varies by context */}
           <div className="flex items-center gap-4">
-            
+
             {/* Home page with authenticated user - show dashboard link */}
             {user && isHomePage && (
               <div className="hidden md:flex items-center gap-3 animate-fade-in animation-delay-400">
                 <Link to={getDashboardPath()}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium"
                   >
                     <LayoutDashboard className="h-4 w-4 mr-2" />
@@ -142,12 +145,12 @@ const ContextualNavbar = () => {
                 )}
               </>
             )}
-            
+
             {/* User Menu - always show if authenticated */}
             <div className="flex items-center animate-fade-in animation-delay-600">
               <UserMenu />
             </div>
-            
+
             {/* Mobile Menu - only in dashboard areas */}
             {user && isDashboardArea && (
               <div className="lg:hidden">

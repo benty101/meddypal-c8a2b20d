@@ -1,5 +1,4 @@
-import React from 'react';
-import ContextualNavbar from '@/components/navbar/ContextualNavbar';
+import AppLayout from '@/components/layout/AppLayout';
 import BreadcrumbNavigation from '@/components/navigation/BreadcrumbNavigation';
 import ContextualHelp from '@/components/navigation/ContextualHelp';
 import FloatingEmergencyButton from '@/components/dashboard/FloatingEmergencyButton';
@@ -32,37 +31,35 @@ const StandardPageLayout: React.FC<StandardPageLayoutProps> = ({
   const getBackgroundClass = () => {
     switch (backgroundVariant) {
       case 'glass':
-        return 'bg-background';
+        return 'bg-background-light dark:bg-background-dark';
       case 'gradient':
-        return 'bg-gradient-to-br from-background via-background to-muted/20';
+        return 'bg-gradient-to-br from-background-light via-background-light to-slate-100/50 dark:from-background-dark dark:via-background-dark dark:to-slate-900/50';
       default:
-        return 'bg-background';
+        return 'bg-background-light dark:bg-background-dark';
     }
   };
 
   return (
     <FlowProvider>
-      <div className={cn("min-h-screen", getBackgroundClass())}>
-        <ContextualNavbar />
-        
-        <main className={cn("container mx-auto px-4 py-6", className)}>
+      <AppLayout className={getBackgroundClass()}>
+        <div className={cn("space-y-6", className)}>
           {showBreadcrumbs && (
-            <div className="mb-6">
+            <div>
               <IntelligentBreadcrumbs />
             </div>
           )}
-          
+
           {(title || subtitle) && (
-            <div className="mb-8">
+            <div>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   {title && (
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2 font-display">
                       {title}
                     </h1>
                   )}
                   {subtitle && (
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-lg text-slate-600 dark:text-slate-400">
                       {subtitle}
                     </p>
                   )}
@@ -75,9 +72,9 @@ const StandardPageLayout: React.FC<StandardPageLayoutProps> = ({
               </div>
             </div>
           )}
-          
+
           {/* Smart suggestions and contextual actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3">
               <SmartSuggestions />
             </div>
@@ -85,16 +82,16 @@ const StandardPageLayout: React.FC<StandardPageLayoutProps> = ({
               <ContextualActions compact />
             </div>
           </div>
-          
-          <div className="glass-card rounded-xl border p-6">
+
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-6 shadow-lg">
             {children}
           </div>
-        </main>
-        
+        </div>
+
         {showEmergencyButton && <FloatingEmergencyButton />}
         <QuickActionBar />
         <Toaster />
-      </div>
+      </AppLayout>
     </FlowProvider>
   );
 };

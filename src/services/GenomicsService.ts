@@ -114,7 +114,7 @@ class GenomicsService {
     uploader_role: UserGenomicsRole['role'];
   }): Promise<string> {
     console.log('Uploading genomic report:', file.name);
-    
+
     // Validate file type
     const allowedTypes = ['application/pdf', 'text/plain', 'application/octet-stream'];
     if (!allowedTypes.includes(file.type)) {
@@ -128,7 +128,7 @@ class GenomicsService {
 
     // Simulate file upload
     const fileUrl = `genomics/${metadata.patient_id}/${Date.now()}-${file.name}`;
-    
+
     // Parse file if VCF
     let variants: GenomicVariant[] = [];
     if (file.name.endsWith('.vcf') || file.type === 'text/plain') {
@@ -180,7 +180,7 @@ class GenomicsService {
       if (columns.length < 8) continue;
 
       const [chrom, pos, id, ref, alt, qual, filter, info] = columns;
-      
+
       // Extract gene information from INFO field
       const geneMatch = info.match(/GENE=([^;]+)/);
       const gene = geneMatch ? geneMatch[1] : undefined;
@@ -225,7 +225,7 @@ class GenomicsService {
   private enhanceVariantWithKnownData(variant: GenomicVariant): void {
     const variantKey = `${variant.gene}:${variant.reference}>${variant.alternate}`;
     const knownData = this.knownVariants.get(variantKey);
-    
+
     if (knownData) {
       variant.clinical_significance = knownData.significance;
       variant.associated_conditions = knownData.conditions;

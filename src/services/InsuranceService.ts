@@ -191,7 +191,7 @@ class InsuranceService {
         totalPlans: data?.length || 0,
         providers: [...new Set(data?.map(p => p.provider))].length,
         planTypes: [...new Set(data?.map(p => p.plan_type))].length,
-        averagePremium: data?.length ? 
+        averagePremium: data?.length ?
           Math.round(data.reduce((sum, p) => sum + (p.premium_monthly || 0), 0) / data.length) : 0,
         totalCoverage: data?.reduce((sum, p) => sum + (p.coverage_amount || 0), 0) || 0
       };

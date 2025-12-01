@@ -24,8 +24,10 @@ export default {
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
+				'background-light': 'hsl(var(--background-light))',
+				'background-dark': 'hsl(var(--background-dark))',
 				foreground: 'hsl(var(--foreground))',
-				
+
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
@@ -61,7 +63,7 @@ export default {
 					elevated: 'hsl(var(--card-elevated))',
 					hover: 'hsl(var(--card-hover))'
 				},
-				
+
 				// Health-specific semantic colors
 				health: {
 					success: 'hsl(var(--health-success))',
@@ -69,11 +71,11 @@ export default {
 					danger: 'hsl(var(--health-danger))',
 					info: 'hsl(var(--health-info))'
 				},
-				
+
 				// Border variations
 				'border-subtle': 'hsl(var(--border-subtle))',
 				'border-strong': 'hsl(var(--border-strong))',
-				
+
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -140,7 +142,8 @@ export default {
 			// Typography system
 			fontFamily: {
 				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-				mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'monospace']
+				mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'monospace'],
+				display: ['Sora', 'Inter', 'sans-serif'],
 			},
 
 			fontSize: {
@@ -240,6 +243,21 @@ export default {
 				'bounce-soft': {
 					'0%, 100%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0,0,0.2,1)' },
 					'50%': { transform: 'translateY(-4px)', animationTimingFunction: 'cubic-bezier(0.8,0,1,1)' }
+				},
+				beam: {
+					'0%': { left: '-20%', opacity: '0' },
+					'10%': { opacity: '1' },
+					'90%': { opacity: '1' },
+					'100%': { left: '120%', opacity: '0' }
+				},
+				'pulse-ring': {
+					'0%': { transform: 'scale(0.8)', opacity: '0.8', boxShadow: '0 0 0 0 rgba(5, 150, 105, 0.7)' },
+					'70%': { transform: 'scale(1)', opacity: '1', boxShadow: '0 0 0 10px rgba(5, 150, 105, 0)' },
+					'100%': { transform: 'scale(0.8)', opacity: '0.8', boxShadow: '0 0 0 0 rgba(5, 150, 105, 0)' }
+				},
+				fadeDown: {
+					'0%': { opacity: '0', transform: 'translateY(-20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 
@@ -256,9 +274,12 @@ export default {
 				'slide-in-left': 'slide-in-left 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
 				'pulse-soft': 'pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'shimmer': 'shimmer 1.5s infinite',
-				'bounce-soft': 'bounce-soft 1s infinite'
+				'bounce-soft': 'bounce-soft 1s infinite',
+				'spin-slow': 'spin 35s linear infinite',
+				'beam': 'beam 18s linear infinite',
+				'pulse-slow': 'pulse-ring 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite',
+				'fade-down': 'fadeDown 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
 			},
-
 			// Apple-style timing functions
 			transitionTimingFunction: {
 				'apple': 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -266,7 +287,7 @@ export default {
 				'apple-out': 'cubic-bezier(0, 0, 0.2, 1)',
 				'apple-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)'
 			}
-		}
+		},
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
