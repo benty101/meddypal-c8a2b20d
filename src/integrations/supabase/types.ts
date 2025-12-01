@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -1953,85 +1953,43 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      can_manage_roles: {
-        Args: { _user_id: string }
-        Returns: boolean
-      }
-      generate_consultation_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_kit_order_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_lab_order_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_order_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_patient_record_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_policy_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_sample_id: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      get_current_user_role: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      get_system_stats_for_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      can_manage_roles: { Args: { _user_id: string }; Returns: boolean }
+      generate_consultation_number: { Args: never; Returns: string }
+      generate_kit_order_number: { Args: never; Returns: string }
+      generate_lab_order_number: { Args: never; Returns: string }
+      generate_order_number: { Args: never; Returns: string }
+      generate_patient_record_number: { Args: never; Returns: string }
+      generate_policy_number: { Args: never; Returns: string }
+      generate_sample_id: { Args: never; Returns: string }
+      get_current_user_role: { Args: never; Returns: string }
+      get_system_stats_for_admin: { Args: never; Returns: Json }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["user_role"]
       }
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["user_role"]
+          _user_id: string
         }
         Returns: boolean
       }
-      is_current_user_super_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_current_user_super_admin: { Args: never; Returns: boolean }
       is_hospital_admin_for: {
-        Args: { _user_id: string; _hospital_id: string }
+        Args: { _hospital_id: string; _user_id: string }
         Returns: boolean
       }
-      is_super_admin: {
-        Args: { _user_id: string }
-        Returns: boolean
-      }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       log_security_event: {
-        Args: { event_type: string; user_id?: string; details?: Json }
+        Args: { details?: Json; event_type: string; user_id?: string }
         Returns: undefined
       }
-      require_secure_session: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      require_secure_session: { Args: never; Returns: boolean }
       track_failed_auth_attempt: {
-        Args: { user_email: string; attempt_type?: string; ip_address?: string }
+        Args: { attempt_type?: string; ip_address?: string; user_email: string }
         Returns: undefined
       }
-      validate_secure_session: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      validate_secure_session: { Args: never; Returns: boolean }
     }
     Enums: {
       user_role: "super_admin" | "hospital_admin" | "patient" | "broker"
