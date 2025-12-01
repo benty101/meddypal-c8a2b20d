@@ -1,13 +1,14 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
-interface FutureButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FutureButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
     variant?: "primary" | "secondary" | "ghost";
     size?: "sm" | "md" | "lg";
     isLoading?: boolean;
     glow?: boolean;
+    children?: React.ReactNode;
 }
 
 const FutureButton = React.forwardRef<HTMLButtonElement, FutureButtonProps>(
@@ -37,6 +38,7 @@ const FutureButton = React.forwardRef<HTMLButtonElement, FutureButtonProps>(
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(baseStyles, variants[variant], sizes[size], glowStyles, className)}
+                disabled={isLoading}
                 {...props}
             >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
