@@ -65,7 +65,7 @@ export const PlanCard3D = ({ name, price, features, recommended, color, delay }:
                 {/* CTA */}
                 <div className="relative z-10">
                     <FutureButton
-                        variant={recommended ? "primary" : "outline"}
+                        variant={recommended ? "primary" : "ghost"}
                         className="w-full justify-center"
                     >
                         Choose {name}

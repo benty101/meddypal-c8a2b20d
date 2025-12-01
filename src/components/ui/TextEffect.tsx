@@ -16,14 +16,14 @@ export const TextEffect = ({
     variants,
     perWord = false,
 }: TextEffectProps) => {
-    const item = {
+    const item: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
                 duration: 0.5,
-                ease: [0.2, 0.65, 0.3, 0.9],
+                ease: [0.2, 0.65, 0.3, 0.9] as any,
             },
         },
     };
