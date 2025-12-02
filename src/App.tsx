@@ -77,6 +77,9 @@ function App() {
                   <SiteMap />
                 </PageLayout>
               } />
+              
+              {/* Public Insurance Marketplace - No Auth Required */}
+              <Route path="/insurance" element={<Insurance />} />
 
               {/* Protected Routes - Require Authentication */}
               <Route path="/onboarding" element={
@@ -124,11 +127,6 @@ function App() {
                 </OnboardingProtectedRoute>
               } />
 
-              <Route path="/insurance" element={
-                <OnboardingProtectedRoute>
-                  <Insurance />
-                </OnboardingProtectedRoute>
-              } />
 
               <Route path="/hospitals" element={
                 <OnboardingProtectedRoute>

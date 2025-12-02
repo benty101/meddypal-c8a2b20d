@@ -1,12 +1,15 @@
 import React from 'react';
-import AppLayout from '@/components/layout/AppLayout';
+import Navbar from '@/components/landing-new/Navbar';
 import InsuranceMarketplace from '@/components/insurance/InsuranceMarketplace';
 
 const Insurance = () => {
   return (
-    <AppLayout>
-      <InsuranceMarketplace />
-    </AppLayout>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="pt-24">
+        <InsuranceMarketplace />
+      </main>
+    </div>
   );
 };
 
