@@ -14,10 +14,17 @@ Based on the Halisi Consult meeting and market analysis, the platform requires a
 
 | Current State | Target State |
 |---------------|--------------|
-| B2C-focused patient app | B2B-first corporate insurance marketplace |
-| Single monolithic application | Two-sided marketplace (Patient PHR + Provider OS) |
-| Genomics integrated into core | Genomics as separate R&D entity (grant-funded) |
-| Demo-quality implementation | Production-ready infrastructure |
+| B2C-focused patient app | B2B-first corporate insurance marketplace | 
+**(i think it should be a mix of both patiet facing app and services but in the insurnance compare page it would have flows or complete section for coporate buyers purchasing or comparing bulk, that way the users can lso oboard on the plartform to use the insurance and manae thier heth importantly its ot just an nsurance plartform  )** 
+| Single monolithic application | Two-sided marketplace (Patient PHR + Provider OS) | 
+Medicloud APIs
+
+https://www.medismarts.tech/medicloud
+https://www.medismarts.tech/emr
+https://www.medismarts.tech/payments
+https://www.medismarts.tech/business-analysis  we aim to provide patient fcing services a well as enterprice facing services 
+| Genomics integrated into core | Genomics as separate R&D entity (grant-funded) | yes but it will enable us onbrd more people the genomic insigt will be populated o tier health tieine nd help give more insight 
+| Demo-quality implementation | Production-ready infrastructure | 
 
 ### 1.2 Entity Structure
 
@@ -26,16 +33,16 @@ Forric (IP Holding Company)
 ├── MeddyPal (Commercial Subsidiary - VC-fundable)
 │   ├── Platform 1: Patient PHR (meddypal.com)
 │   ├── Platform 2: Provider OS (providers.meddypal.com)
-│   └── Platform 3: Corporate Portal (business.meddypal.com)
+│   └── Platform 3: Corporate Portal (business.meddypal.com) (i think this can be incoporated in the medddypal side nt sure but think it through well )
 └── Genomics Initiative (R&D - Grant-funded via NABDA)
 ```
 
 ### 1.3 Key Strategic Insights (from Halisi Consult)
 
 1. **B2B Focus**: "Corporates are the ones that buy" - target HR teams comparing and bulk-purchasing insurance
-2. **GoCompare Model**: Insurance comparison platform for corporate buyers
+2. **GoCompare Model**: Insurance comparison platform for corporate buyers and (patients as well )
 3. **Validation First**: Need 1,000 paying customers before VC approach
-4. **Separate Genomics**: Keep genomics as R&D (grants), insurance platform as commercial (VC)
+4. **Separate Genomics**: Keep genomics as R&D (grants), insurance platform as commercial (VC) ( yes legally, but to the user it's one seamless flow that adds genmic insight to thier helath timeine )
 5. **Partnership GTM**: Health insurance is a numbers game - partnership-driven growth
 
 ---
@@ -59,7 +66,7 @@ Forric (IP Holding Company)
 **Target Users**: Hospitals, clinics, pharmacies, diagnostic labs
 
 **Core Modules**:
-- Multi-HMO Billing Engine (unified claims submission)
+- Multi-HMO Billing Engine (unified claims submission) (i think we an use this wedge to say you can accept clint from multilple hmos increasing bottom line )
 - Patient Management System
 - Appointment Scheduling
 - Inventory & Stock Management
@@ -103,7 +110,7 @@ Forric (IP Holding Company)
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.3 HMO Connector Layer (Critical Infrastructure)
+### 2.3 HMO Connector Layer (Critical Infrastructure) we need to be able to onboard as many as possible, so this becomes the goto for enterprise billng with hmoos, nigeria passed a law to mandate insurance its not been enforced yet but we need to position erly bulding h infrastructure, we can add nhis state insurance alot alot more that way a provider can virtually accept any customer wth any nsurance thats the endgoal  
 
 ```typescript
 // Unified Claims Format - All HMOs normalize to this
@@ -135,7 +142,7 @@ interface HMOAdapter {
 
 The current codebase includes:
 
-**Pages (40+)**:
+**Pages (40+)**:  ( we need to review and remap flow to logically fit busness plan )
 - Landing pages (Home, About, Services, Providers, Community)
 - Patient features (Dashboard, Timeline, Records, Appointments)
 - Services (Insurance, Pharmacy, Labs, Telemedicine, Hospitals)
