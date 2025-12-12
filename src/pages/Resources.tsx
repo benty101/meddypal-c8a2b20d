@@ -1,20 +1,15 @@
-
 import React from 'react';
-import StandardPageLayout from '@/components/layout/StandardPageLayout';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import ModernResourceCenter from '@/components/resources/ModernResourceCenter';
 
 const Resources = () => {
   return (
-    <StandardPageLayout
+    <DashboardLayout
       title="Health Resources & Education"
       subtitle="Access trusted health information, educational content, and wellness resources"
-      backgroundVariant="gradient"
-      showBreadcrumbs={false}
-      showHelp={true}
-      showEmergencyButton={true}
     >
       <ModernResourceCenter />
-    </StandardPageLayout>
+    </DashboardLayout>
   );
 };
 

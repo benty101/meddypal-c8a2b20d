@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import PageLayout from '@/components/layout/PageLayout';
-import BackButton from '@/components/navigation/BackButton';
+import React from 'react';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AvailableDoctors from '@/components/telemedicine/AvailableDoctors';
 import ConsultationBooking from '@/components/telemedicine/ConsultationBooking';
@@ -9,49 +8,46 @@ import { Video, Calendar, Clock, Users } from 'lucide-react';
 
 const Telemedicine = () => {
   return (
-    <PageLayout 
+    <DashboardLayout 
       title="Telemedicine Services" 
-      subtitle="Connect with qualified healthcare providers through secure video consultations from the comfort of your home"
+      subtitle="Connect with qualified healthcare providers through secure video consultations"
     >
-      <div className="mb-6">
-        <BackButton />
-      </div>
-      
-      <div className="container mx-auto">{/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="space-y-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card>
-            <CardContent className="flex items-center p-6">
-              <Video className="h-8 w-8 text-teal-600 mr-3" />
+            <CardContent className="flex items-center p-4">
+              <Video className="h-6 w-6 text-primary mr-3" />
               <div>
-                <p className="text-2xl font-bold">24/7</p>
-                <p className="text-sm text-muted-foreground">Available</p>
+                <p className="text-lg font-bold">24/7</p>
+                <p className="text-xs text-muted-foreground">Available</p>
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex items-center p-6">
-              <Users className="h-8 w-8 text-teal-600 mr-3" />
+            <CardContent className="flex items-center p-4">
+              <Users className="h-6 w-6 text-primary mr-3" />
               <div>
-                <p className="text-2xl font-bold">50+</p>
-                <p className="text-sm text-muted-foreground">Doctors</p>
+                <p className="text-lg font-bold">50+</p>
+                <p className="text-xs text-muted-foreground">Doctors</p>
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex items-center p-6">
-              <Calendar className="h-8 w-8 text-teal-600 mr-3" />
+            <CardContent className="flex items-center p-4">
+              <Calendar className="h-6 w-6 text-primary mr-3" />
               <div>
-                <p className="text-2xl font-bold">Same Day</p>
-                <p className="text-sm text-muted-foreground">Booking</p>
+                <p className="text-lg font-bold">Same Day</p>
+                <p className="text-xs text-muted-foreground">Booking</p>
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="flex items-center p-6">
-              <Clock className="h-8 w-8 text-teal-600 mr-3" />
+            <CardContent className="flex items-center p-4">
+              <Clock className="h-6 w-6 text-primary mr-3" />
               <div>
-                <p className="text-2xl font-bold">15 min</p>
-                <p className="text-sm text-muted-foreground">Average Wait</p>
+                <p className="text-lg font-bold">15 min</p>
+                <p className="text-xs text-muted-foreground">Average Wait</p>
               </div>
             </CardContent>
           </Card>
@@ -73,7 +69,7 @@ const Telemedicine = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </PageLayout>
+    </DashboardLayout>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AppLayout from '@/components/layout/AppLayout';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import { HealthTimelineHub } from '@/components/health-timeline/HealthTimelineHub';
 import { IntelligencePanel } from '@/components/intelligence/IntelligencePanel';
 import { CommunityHealthPanel } from '@/components/community/CommunityHealthPanel';
@@ -19,23 +19,16 @@ const HealthTimeline = () => {
   }, []);
 
   return (
-    <AppLayout>
+    <DashboardLayout 
+      title="Your Health Journey"
+      subtitle="A comprehensive view of your health story - past, present, and future"
+    >
       <div className="space-y-6">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Your Health Journey
-          </h1>
-          <p className="text-muted-foreground">
-            A comprehensive view of your health story - past, present, and future
-          </p>
-        </div>
-
         {/* Main Timeline Hub */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Primary Timeline - Takes center stage */}
+          {/* Primary Timeline */}
           <div className="xl:col-span-3">
-            <Card className="h-[800px] p-0 overflow-hidden">
+            <Card className="h-[700px] p-0 overflow-hidden">
               <HealthTimelineHub onboardingData={onboardingData} />
             </Card>
           </div>
@@ -45,27 +38,22 @@ const HealthTimeline = () => {
             <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="timeline" className="text-xs">
-                  <Activity className="w-3 h-3 mr-1" />
-                  Live
+                  <Activity className="w-3 h-3 mr-1" />Live
                 </TabsTrigger>
                 <TabsTrigger value="intelligence" className="text-xs">
-                  <Brain className="w-3 h-3 mr-1" />
-                  AI
+                  <Brain className="w-3 h-3 mr-1" />AI
                 </TabsTrigger>
                 <TabsTrigger value="community" className="text-xs">
-                  <Users className="w-3 h-3 mr-1" />
-                  Family
+                  <Users className="w-3 h-3 mr-1" />Family
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="timeline" className="space-y-4">
                 <PreventiveInsights onboardingData={onboardingData} />
               </TabsContent>
-
               <TabsContent value="intelligence" className="space-y-4">
                 <IntelligencePanel onboardingData={onboardingData} />
               </TabsContent>
-
               <TabsContent value="community" className="space-y-4">
                 <CommunityHealthPanel />
               </TabsContent>
@@ -86,7 +74,6 @@ const HealthTimeline = () => {
               </div>
             </div>
           </Card>
-
           <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
@@ -98,7 +85,6 @@ const HealthTimeline = () => {
               </div>
             </div>
           </Card>
-
           <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
@@ -110,7 +96,6 @@ const HealthTimeline = () => {
               </div>
             </div>
           </Card>
-
           <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
@@ -124,7 +109,7 @@ const HealthTimeline = () => {
           </Card>
         </div>
       </div>
-    </AppLayout>
+    </DashboardLayout>
   );
 };
 
