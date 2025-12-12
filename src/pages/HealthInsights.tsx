@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import PageLayout from '@/components/layout/PageLayout';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface GenomicInsight {
   id: string;
@@ -406,16 +406,16 @@ const HealthInsights = () => {
 
   if (isLoading) {
     return (
-      <PageLayout title="Health Insights">
+      <DashboardLayout title="Health Insights" subtitle="NABDA-powered genomic analysis for maternal and child health">
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
-      </PageLayout>
+      </DashboardLayout>
     );
   }
 
   return (
-    <PageLayout title="Health Insights">
+    <DashboardLayout title="Health Insights" subtitle="NABDA-powered genomic analysis for maternal and child health">
       <div className="max-w-7xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="space-y-4">
@@ -767,7 +767,7 @@ const HealthInsights = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </PageLayout>
+    </DashboardLayout>
   );
 };
 

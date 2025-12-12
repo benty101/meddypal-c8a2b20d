@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import StandardPageLayout from '@/components/layout/StandardPageLayout';
-import BackButton from '@/components/navigation/BackButton';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -376,16 +375,11 @@ const Pharmacy = () => {
   };
 
   return (
-    <StandardPageLayout 
+    <DashboardLayout 
       title="MeddyPal Pharmacy" 
       subtitle="Your trusted online pharmacy for quality medications"
-      backgroundVariant="gradient"
     >
-      <div className="mb-6">
-        <BackButton />
-      </div>
-      
-      <div className="max-w-7xl mx-auto">
+      <div className="space-y-6">
         <Tabs defaultValue="shop" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="shop" className="flex items-center gap-2">
@@ -562,17 +556,15 @@ const Pharmacy = () => {
             </Card>
           </TabsContent>
         </Tabs>
+
+        <CheckoutModal
+          isOpen={showCheckoutModal}
+          onClose={() => setShowCheckoutModal(false)}
+          cartItems={cart}
+          onOrderSuccess={handleOrderSuccess}
+        />
       </div>
-
-      <CheckoutModal
-        isOpen={showCheckoutModal}
-        onClose={() => setShowCheckoutModal(false)}
-        cartItems={cart}
-        onOrderSuccess={handleOrderSuccess}
-      />
-
-      <FloatingEmergencyButton />
-    </StandardPageLayout>
+    </DashboardLayout>
   );
 };
 

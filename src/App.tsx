@@ -13,7 +13,6 @@ import Providers from './pages/Providers';
 import Community from './pages/Community';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
-import DashboardNew from './pages/DashboardNew';
 import HealthTimeline from './pages/HealthTimeline';
 import HealthIntelligenceHub from './pages/HealthIntelligenceHub';
 import CommercePlatform from './pages/CommercePlatform';
@@ -96,14 +95,7 @@ function App() {
                 </OnboardingProtectedRoute>
               } />
 
-              {/* New Dashboard */}
-              <Route path="/dashboard-new" element={
-                <OnboardingProtectedRoute>
-                  <DashboardNew />
-                </OnboardingProtectedRoute>
-              } />
-
-              {/* Legacy/Secondary Routes */}
+              {/* Main Dashboard */}
               <Route path="/dashboard" element={
                 <OnboardingProtectedRoute>
                   <Dashboard />
